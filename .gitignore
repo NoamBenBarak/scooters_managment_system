@@ -1,0 +1,17 @@
+# Node.js
+node_modules/ 
+client/node_modules/
+server/node_modules/
+
+# Environment variables
+.env
+
+# Build directory
+client/build/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Editor directories and files
+.vscode/
+
