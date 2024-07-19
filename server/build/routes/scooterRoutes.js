@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const scooterController_1 = require("../contorllers/scooterController");
+const router = (0, express_1.Router)();
+router.get('/', scooterController_1.getAllScooters);
+router.get('/poligonfilter', scooterController_1.filterScootersByPolygon);
+router.get('/availablefilter', scooterController_1.filterAvailableScooters);
+router.post('/', scooterController_1.createScooter);
+router.put('/:id', scooterController_1.updateScooter);
+router.delete('/:id', scooterController_1.deleteScooter);
+exports.default = router;
