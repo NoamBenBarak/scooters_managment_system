@@ -19,7 +19,7 @@ const MyMap: React.FC<MyMapProps> = ({ onPolygonCreate, center }) => {
     const newMap = L.map('my-map').setView([32.0853, 34.7818], 13); // Default to Tel Aviv
     setMap(newMap);
 
-    const myAPIKey = process.env.MAP_API_KEY; 
+    const myAPIKey=process.env.MAP_API_KEY; 
 
     const isRetina = L.Browser.retina;
 
