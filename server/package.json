@@ -4,10 +4,8 @@
   "description": "",
   "main": "src/server.ts",
 "scripts": {
-  "start": "ts-node src/server.ts",
-  "build": "tsc",
-  "prestart": "npm run build",
-  "heroku-postbuild": "npm run build"
+  "start": "node ./dist/server.js",
+  "build": "tsc"
 },
   "author": "noam",
   "license": "ISC",
