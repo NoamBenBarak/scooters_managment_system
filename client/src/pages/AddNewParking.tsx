@@ -20,7 +20,7 @@ const AddParkingForm: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const apiUrl = "https://scooters-managment-system-26.onrender.com" || 'http://localhost:5000';
 
   useEffect(() => {
     if (!isLoggedIn) {

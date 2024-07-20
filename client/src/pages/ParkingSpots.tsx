@@ -17,7 +17,7 @@ const ParkingSpotsPage: React.FC = () => {
     const [parkings, setParkings] = useState<IParking[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const { isLoggedIn } = useAuth(); 
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const apiUrl = "https://scooters-managment-system-26.onrender.com"  || 'http://localhost:5000';
 
     useEffect(() => {
         if (!isLoggedIn) {

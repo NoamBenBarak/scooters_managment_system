@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate()
     const { setLoggedIn } = useAuth();
     const [errorMessage, setErrorMessage] = useState<string>("");
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const apiUrl = "https://scooters-managment-system-26.onrender.com"  || 'http://localhost:5000';
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
