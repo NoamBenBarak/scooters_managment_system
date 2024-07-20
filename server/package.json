@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "prestart": "npm run build",
-    "heroku-postbuild": "npm run build"
-  },
+"scripts": {
+  "start": "ts-node src/server.ts",
+  "build": "tsc",
+  "prestart": "npm run build",
+  "heroku-postbuild": "npm run build"
+},
   "author": "noam",
   "license": "ISC",
   "dependencies": {
