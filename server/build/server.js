@@ -13,6 +13,7 @@ const failureRoutes_1 = __importDefault(require("./routes/failureRoutes"));
 const loginUserRoutes_1 = __importDefault(require("./routes/loginUserRoutes"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+const path = require("path");
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 const mongoURL = process.env.MONGO_URL;
