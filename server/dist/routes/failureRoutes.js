@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const failureController_1 = require("../contorllers/failureController");
+const router = (0, express_1.Router)();
+router.post('/', failureController_1.createNewFailure);
+router.get('/scooters/:scooterId/current', failureController_1.getActiveFailuresByScooterId);
+router.get('/scooters/:scooterId/history', failureController_1.getFailureHistoryByScooterId);
+router.get('/', failureController_1.getAllFailures);
+router.get('/:id', failureController_1.getFailureById);
+router.put('/:id', failureController_1.updateFailureById);
+router.delete('/:id', failureController_1.deleteFailureById);
+exports.default = router;

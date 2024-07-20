@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const parkingController_1 = require("../contorllers/parkingController");
+const router = (0, express_1.Router)();
+router.get('/', parkingController_1.getAllParkingSpots);
+router.post('/', parkingController_1.createNewParkingSpot);
+router.get('/availability', parkingController_1.getParkingAvailability);
+router.get('/:id', parkingController_1.getParkingSpotById);
+router.put('/:id', parkingController_1.updateParkingSpotById);
+router.delete('/:id', parkingController_1.deleteParkingSpotById);
+exports.default = router;
