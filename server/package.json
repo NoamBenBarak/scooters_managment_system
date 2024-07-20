@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "npm start",
-    "build": "node server.ts",
+    "start": "ts-node src/server.ts",
+    "build": "tsc",
     "prestart": "npm run build",
     "heroku-postbuild": "npm run build"
   },

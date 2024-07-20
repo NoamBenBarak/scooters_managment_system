@@ -113,7 +113,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "outDir": "./build",
+    "outDir": "dist",
     "rootDir": "./src",
     "esModuleInterop": true,
     "baseUrl": ".",
