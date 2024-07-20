@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "ts-node src/server.ts",
-    "build": "npm install",
+    "build": "tsc src/server.ts",
     "prestart": "npm run build",
     "heroku-postbuild": "npm run build"
   },
