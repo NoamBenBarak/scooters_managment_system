@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,15 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate()
     const { setLoggedIn } = useAuth();
     const [errorMessage, setErrorMessage] = useState<string>("");
-    const apiUrl = "https://scooters-managment-system-26.onrender.com"  || 'http://localhost:5000';
+    const URL =process.env.REACT_APP_API_URL
+
+    useEffect(()=>{ },[URL])
+    
+    const apiUrl = URL  || 'http://localhost:5000';
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            console.log(email, password);
             const response = await axios.post(`${apiUrl}/auth`, {
                 email,
                 password
@@ -26,11 +29,12 @@ const LoginPage: React.FC = () => {
                 setLoggedIn(true); 
                 navigate('/parkings/spots')
             }
-            else if(response.status===400){
+            else{
                 setErrorMessage("Invalid email or password")
             }
         } catch (error) {
             console.log(error);
+            setErrorMessage("Invalid email or password")
         }
         setEmail('');
         setPassword('');
@@ -74,6 +78,9 @@ const LoginPage: React.FC = () => {
                         Login
                     </Button>
                 </Form>
+                <Button color="warning" block type="submit" className="btn btn-primary mt-3" onClick={()=>{navigate('/registration')}}>
+                        Register
+                </Button>
             </Col>
         </Row>
     </Container>

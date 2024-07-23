@@ -17,16 +17,21 @@ const ParkingSpotsPage: React.FC = () => {
     const [parkings, setParkings] = useState<IParking[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const { isLoggedIn } = useAuth(); 
-    const apiUrl = "https://scooters-managment-system-26.onrender.com"  || 'http://localhost:5000';
+    
+    const URL =process.env.REACT_APP_API_URL
+    useEffect(()=>{console.log(URL);
+    },[URL])
+
+    const apiUrl = URL  || 'http://localhost:5000';
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (!localStorage.getItem('isLoggedIn')) {
             navigate('/'); 
             alert('You must be logged in to add a parking spot.');
         }
         const fetchParkings = async () => {
             try {
-                const response = await axios.get<IParking[]>(`${apiUrl}/parkings`);
+                const response = await axios.get(`${apiUrl}/parkings`);
                 setParkings(response.data);
             } catch (error) {
                 console.error('Error fetching parking spots:', error);

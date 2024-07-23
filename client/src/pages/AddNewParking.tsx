@@ -5,6 +5,7 @@ import axios from 'axios';
 import Header from '../components/Header';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { formatName } from '../functions';
 
 interface Address {
   city: string;
@@ -20,10 +21,15 @@ const AddParkingForm: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
-  const apiUrl = "https://scooters-managment-system-26.onrender.com" || 'http://localhost:5000';
+
+  const URL =process.env.REACT_APP_API_URL
+  useEffect(()=>{console.log(URL);
+  },[URL])
+
+  const apiUrl = URL || 'http://localhost:5000';
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!localStorage.getItem('isLoggedIn')) {
       navigate('/');
       alert('You must be logged in to add a parking spot.');
     }
@@ -33,52 +39,71 @@ const AddParkingForm: React.FC = () => {
     setPolygon(polygonData); 
   };
 
+  const validateForm = (): string =>{
+    if (address.number <= 0) {
+      return"Address number must be greater than 0.";
+    }
+    if (address.street.length < 3) {
+      return "Street name must be at least 3 characters long.";
+    }
+    const englishOnlyRegex = /^[A-Za-z\s]+$/;
+    if (!englishOnlyRegex.test(address.street)) {
+       return "Street name must contain only English letters.";
+    }
+    return ""
+  }
+  
+
+  const handleStreetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedStreet = formatName(event.target.value);
+    setAddress({ ...address, street: formattedStreet });
+  };
+
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (address.number <= 0) {
-      setErrorMessage("Address number must be greater than 0.");
+    const validationError = validateForm();
+    if (validationError!=="") {
+      setErrorMessage(validationError);
       return;
     }
+    else if (validationError=="") {
+      if (!polygon) {
+        setErrorMessage("Please select a location on the map.");
+        return;
+      }
 
-    if (address.street.length < 3) {
-      setErrorMessage("Street name must be at least 3 characters long.");
-      return;
-    }
-
-    if (!polygon) {
-      setErrorMessage("Please select a location on the map.");
-      return;
-    }
-
-    const parkingData = {
-      address,
-      capacity,
-      currentParking: 0, 
-      location: {
-        type: 'Polygon',
-        coordinates: polygon.geometry.coordinates
-      },
-    };
-    
+      const parkingData = {
+        address,
+        capacity,
+        currentParking: 0, 
+        location: {
+          type: 'Polygon',
+          coordinates: polygon.geometry.coordinates
+        },
+      }
     try {
-      await axios.post(apiUrl, parkingData);
-      setSuccessMessage("Parking spot added successfully!");
-      setErrorMessage("");
-      setTimeout(() => {
+      const response = await axios.post(`${apiUrl}/parkings`, parkingData);
+      if (response.status === 201) {
+        setSuccessMessage("Parking spot added successfully!");
+        setErrorMessage("");
         setSuccessMessage("");
         setAddress({ city: 'Tel-Aviv', street: '', number: 0 });
         setCapacity(0);
         setPolygon(null);
-      }, 2000);
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        setErrorMessage(error.response.data.message || "An error occurred during registration.");
-      } else {
-        setErrorMessage("An unknown error occurred.");
+        setTimeout(() => {
+          navigate('/parkings/spots');
+        }, 1000);
       }
-      setSuccessMessage("");
-    }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          setErrorMessage(error.response.data.message || "An error occurred during registration.");
+        } else {
+          setErrorMessage("An unknown error occurred.");
+        }
+        setSuccessMessage("");
+      }
+    };
   };
 
   return (
@@ -104,7 +129,7 @@ const AddParkingForm: React.FC = () => {
               type="text"
               id="street"
               value={address.street}
-              onChange={(e) => setAddress({ ...address, street: e.target.value })}
+               onChange={handleStreetChange}
               required
             />
           </FormGroup>
